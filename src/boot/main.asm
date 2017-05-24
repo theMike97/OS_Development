@@ -11,7 +11,7 @@ call printf
 
 ; Reset segment regs and set stack pointer to entry point
 cli
-jmp 0x0000:ZeroSeg
+jmp 0x0000:ZeroSeg	; far jump to correct for BIOS puttin us in the wrong segment
 ZeroSeg:
   xor ax, ax
   mov ss, ax
@@ -29,9 +29,9 @@ xor ax, ax
 mov dl, 0x80
 int 0x13
 ; Load sectors from our disk
-mov al, 1
-mov cl, 2
-mov dx, [0x7c00 + 510]
+mov al, 1		; sectors to read
+mov cl, 2		; start sector
+mov dx, [0x7c00 + 510]	; print out 
 call printh
 
 jmp $
