@@ -11,13 +11,20 @@ My plan for this is to write an operating system completely from scratch.  While
 
 #### Dependencies
 
+To compile assembly files, create ISO, compile C files, burn ISO image to a CD/DVD, and test code, you will need the following packages (for Arch Linux - if you're on Debian, you will have to find the proper equivilents):
 
+    - nasm
+    - cdrtools
+    - gcc (you should have this, but for completeness, I am including it here)
+    - dvd+rw-tools
+    - qemu (or bochs - the makefile uses qemu, so you will have to change it if you choose to use bochs)
+    - virtualbox (if you want to test your ISO images)
 
 #### Installation
 
 For the bootloader:
 
-To compile, just run the makefile 'make'
+To compile, just run the makefile `make`
 To burn to a cd, create an ISO and then burn:
 
 ```
