@@ -1,6 +1,10 @@
-## Welcome to my OS Developement GitHub Page!
+## Welcome to OS Developement!
+My plan for this is to write an operating system completely from scratch.  While I could use GRUB as my bootloader, I am writing my own bootloader that goes through the necessary measures to get into long mode and load the kernel.  The kernel is completely up in the air.  Since this is a new learning experience for me, I am unsure how far I want to take the kernel.
 
-You can use the [editor on GitHub](https://github.com/theMike97/OS_Developement/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+### Table of Contents
+1. [Implementation](#implement)
+2. [Contributing](#contribute)
+3. [License](#license)
 
 ### Markdown
 
