@@ -1,0 +1,8 @@
+# Binary files
+*.bin
+
+# Object files
+*.o
+*.elf
+
+# Linker output
