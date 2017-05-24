@@ -9,6 +9,29 @@ My plan for this is to write an operating system completely from scratch.  While
 
 ### Implementation
 
+#### Dependencies
+
+
+
+#### Installation
+
+For the bootloader:
+
+To compile, just run the makefile 'make'
+To burn to a cd, create an ISO and then burn:
+
+```
+truncate main.bin -s 1200k
+mkisofs -b main.bin -o os.iso ./
+cdrecord -v -sao dev=<optical drive (ex. /dev/sr0)> os.iso
+```
+
+make sure that the optical drive is unmounted.
+
+#### Usage
+
+This would be used as an operating system which could be on any form of media.  There isn't likely going to be any practical application for this project.
+
 **[Return to top](#table-of-contents)**
 
 ### Contributing
