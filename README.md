@@ -1,18 +1,24 @@
 ## Welcome to OS Developement!
+
 My plan for this is to write an operating system completely from scratch.  While I could use GRUB as my bootloader, I am writing my own bootloader that goes through the necessary measures to get into long mode and load the kernel.  The kernel is completely up in the air.  Since this is a new learning experience for me, I am unsure how far I want to take the kernel.
 
 ### Table of Contents
-1. [Implementation](#implement)
-2. [Contributing](#contribute)
+1. [Implementation](#implementation)
+2. [Contributing](#contributing)
 3. [License](#license)
 
-### Markdown
+### Implementation
 
+**[Return to top](#table-of-contents)**
 
-**Bold** and _Italic_ and `Code` text
+### Contributing
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Please open an issue to talk about changes or additions.  Since I am doing this as a self-enrichment project, I am not looking for a lot of community input at the moment.
 
-### Contact
+**[Return to top](#table-of-contents)**
 
-If you want to collaborate, you can email me at mllauderback@gmail.com
+### License
+
+View license information [here](https://github.com/theMike97/OS_Developement/blob/master/LICENSE) 
+
+**[Return to top](#table-of-contents)**
