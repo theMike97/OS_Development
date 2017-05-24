@@ -11,4 +11,7 @@
 # Directories
 */iso
 
+# Swap
+*.swp
+
 # Linker output
