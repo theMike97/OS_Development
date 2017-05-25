@@ -9,7 +9,7 @@
 *.iso
 
 # Directories
-./iso
+iso
 
 # Swap
 *.swp
