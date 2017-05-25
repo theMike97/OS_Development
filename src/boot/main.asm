@@ -39,6 +39,7 @@ jmp $
 %include "printf.asm"
 %include "readDisk.asm"
 %include "printh.asm"
+%include "testA20.asm"
 
 LOADING: db 'Loading...', 0x0a, 0x0d, 0
 DISK_ERR_MSG: db 'Error Loading Disk.', 0x0a, 0x0d, 0
