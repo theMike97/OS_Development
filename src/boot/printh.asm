@@ -16,8 +16,8 @@ mov di, 2
   sub cl, 4       ; change bits shifted in next iteration
   inc di          ; add 1 to insertion location in HEX_PATTERN
   
-  cmp cl, 5       ; since HEX_PATTERN.length = 5:
-  je .exit        ; if (cl == 5) {exit the loop}
+  cmp di, 6       ; since HEX_PATTERN.length = 5:
+  je .exit        ; if (di == 6) {exit the loop}
 
 jmp .hexLoop
 
