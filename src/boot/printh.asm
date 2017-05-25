@@ -1,30 +1,30 @@
 printh:
+push cx
+push bx
 
 mov si, HEX_PATTERN		; Load HEX_PATTERN memory location to si
+mov ch, 12
+mov cl, 2
 
-mov bx, dx			; copy dx to bx to preserve original hex value
-shr bx, 12			; Shift value in bx 12 bits (3 bytes) right
-mov bx, [bx + HEX_TABLE]	; load ascii character from HEX_TABLE into bx
-mov [HEX_PATTERN + 2], bl	; insert byte bl into correct spot in HEX_PATTERN
+.hexLoop:
+  mov bx, dx			; copy dx to bx to preserve original hex value
+  shr bx, ch			; Shift value in bx 12 bits (3 bytes) right
+  and bx, 0x000f  ; mask first 3 digits
+  mov bx, [bx + HEX_TABLE]	; load ascii character from HEX_TABLE into bx
+  mov [HEX_PATTERN + cl], bl	; insert byte bl into correct spot in HEX_PATTERN
+  sub ch, 4       ; change bits shifted in next iteration
+  inc cl          ; add 1 to insertion location in HEX_PATTERN
+  
+  cmp cl, 5       ; since HEX_PATTERN.length = 5:
+  je .exit        ; if (cl == 5) {exit the loop}
 
-mov bx, dx
-shr bx, 8
-and bx, 0x000f			; mask digits except the first one
-mov bx, [bx + HEX_TABLE]
-mov [HEX_PATTERN + 3], bl
+jmp .hexLoop
 
-mov bx, dx
-shr bx, 4
-and bx, 0x000f
-mov bx, [bx + HEX_TABLE]
-mov [HEX_PATTERN + 4], bl
+.exit:
+call printf     ; print HEX_PETTERN which is now populated
 
-mov bx, dx
-and bx, 0x000f
-mov bx, [bx + HEX_TABLE]
-mov [HEX_PATTERN + 5], bl
-
-call printf			; print HEX_PATTERN which now is populated with the address
+pop cx
+pop dx
 ret
 
 HEX_PATTERN: db '0x****', 0x0a, 0x0d, 0
