@@ -1,4 +1,4 @@
-## Welcome to OS Developement!
+## OS_Developement
 
 My plan for this is to write an operating system completely from scratch.  While I could use GRUB as my bootloader, I am writing my own bootloader that goes through the necessary measures to get into long mode and load the kernel.  The kernel is completely up in the air.  Since this is a new learning experience for me, I am unsure how far I want to take the kernel.
 
