@@ -24,17 +24,25 @@ ZeroSeg:
 sti
 
 ; Reset disk
-push ax
-xor ax, ax
+;xor ax, ax
 mov dl, 0x80
 int 0x13
+
 ; Load sectors from our disk
-mov al, 1		; sectors to read
-mov cl, 2		; start sector
-mov dx, [0x7c00 + 510]	; print out 
+;mov al, 127		; sectors to read
+;mov cl, 1		; start sector
+;call readDisk
+
+;mov ax, 0x2400
+;int 0x15
+
+call testA20
+mov dx, ax
 call printh
 
-jmp $
+;jmp sTwo
+
+jmp $ ;safety hang
 
 %include "printf.asm"
 %include "readDisk.asm"
@@ -52,5 +60,7 @@ dw 0xaa55
 sTwo:
 mov si, TEST_STR
 call printf
+
+jmp $
 ;
 times 512 db 0 ; extra padding so QEmu doesn't think we've run out of disk space

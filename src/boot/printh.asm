@@ -24,8 +24,9 @@ jmp .hexLoop
 .exit:
 call printf     ; print HEX_PETTERN which is now populated
 
+pop bx
+pop di
 pop cx
-pop dx
 ret
 
 HEX_PATTERN: db '0x****', 0x0a, 0x0d, 0
