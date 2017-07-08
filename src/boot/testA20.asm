@@ -4,8 +4,6 @@ testA20:
 pusha
 
 mov ax, [0x7dfe]
-mov dx, ax
-call printh
 
 push bx
 mov bx, 0xffff
@@ -15,7 +13,6 @@ pop bx
 mov bx, 0x7e0e
 
 mov dx, [es:bx]
-call printh
 
 cmp ax, dx
 je .cont
@@ -26,8 +23,6 @@ ret
 
 .cont:
 mov ax, [0x7dff]
-mov dx, ax
-call printh
 
 push bx
 mov bx, 0xffff
@@ -37,7 +32,6 @@ pop bx
 mov bx, 0x7e0f
 
 mov dx, [es:bx]
-call printh
 
 cmp ax, dx
 je .exit
