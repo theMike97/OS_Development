@@ -9,7 +9,6 @@ pusha
   call testA20     ;test to see if BIOS method worked
   cmp ax, 1
   je .done         ;if it did, jump to .done
-  xor ax, ax
 
 ;Keyboard
   sti
@@ -46,7 +45,6 @@ pusha
   call testA20
   cmp ax, 1
   je .done
-  xor ax, ax
 
 ;FastA20
   in al, 0x92       ; read data through port 0x92 (chipset)
@@ -56,11 +54,13 @@ pusha
   call testA20
   cmp al, 1
   je .done
-  xor ax, ax
+
+  mov si, NO_A20
+  call printf
+  jmp $
 
 .done:
   popa
-  mov ax, 1         ; set ax to 1 since A20 is now enabled
   ret
 
 waitC:              ; wait for controller to accept commands

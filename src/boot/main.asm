@@ -24,27 +24,25 @@ ZeroSeg:
 sti
 
 ; Reset disk
-;xor ax, ax
-;mov dl, 0x80
-;int 0x13
+xor ax, ax
+mov dl, 0x80
+int 0x13
 
 ; Load sectors from our disk
-;mov al, 127		; sectors to read
-;mov cl, 1		; start sector
-;call readDisk
+mov al, 1		; sectors to read
+mov cl, 2		; start sector
+call readDisk
 
-mov ax, 0x2400
-int 0x15
+;mov ax, 0x2400
+;int 0x15
 
 call testA20
 mov dx, ax
 call printh
 
 call enableA20
-mov dx, ax
-call printh
 
-;jmp sTwo
+jmp sTwo
 
 jmp $ ;safety hang
 
@@ -57,8 +55,9 @@ jmp $ ;safety hang
 LOADING: db 'Loading...', 0x0a, 0x0d, 0
 DISK_ERR_MSG: db 'Error Loading Disk.', 0x0a, 0x0d, 0
 TEST_STR: db 'You are in the second sector.', 0x0a, 0x0d, 0
-;NOA20: db 'No A20 line', 0x0a, 0x0d, 0
-;A20ENABLED: db 'A20 Enabled', 0x0a, 0x0d, 0
+NO_A20: db 'No A20 line.', 0x0a, 0x0d, 0
+NO_LM: db 'No long mode support.', 0x0a, 0x0d, 0
+YES_LM: db 'Long Mode supported.', 0x0a, 0x0d, 0
 
 ; padding and magic number
 times 510-($-$$) db 0
@@ -68,6 +67,10 @@ sTwo:
 mov si, TEST_STR
 call printf
 
+call checklm
+
 jmp $
-;
+
+%include "checklm.asm"
+
 times 512 db 0 ; extra padding so QEmu doesn't think we've run out of disk space
