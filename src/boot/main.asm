@@ -6,10 +6,8 @@ section .text
   global main
 
 main:
-mov si, LOADING
-call printf
-
 ; Reset segment regs and set stack pointer to entry point
+
 cli
 jmp 0x0000:ZeroSeg	; far jump to correct for BIOS puttin us in the wrong segment
 ZeroSeg:
@@ -23,9 +21,12 @@ ZeroSeg:
   cld
 sti
 
+mov si, LOADING
+call printf
+
 ; Reset disk
 xor ax, ax
-mov dl, 0x80
+mov dl, 0x00
 int 0x13
 
 ; Load sectors from our disk
@@ -56,6 +57,7 @@ LOADING: db 'Loading...', 0x0a, 0x0d, 0
 DISK_ERR_MSG: db 'Error Loading Disk.', 0x0a, 0x0d, 0
 TEST_STR: db 'You are in the second sector.', 0x0a, 0x0d, 0
 NO_A20: db 'No A20 line.', 0x0a, 0x0d, 0
+A20DONE: db 'A20 Line Enabled.', 0x0a, 0x0d, 0
 NO_LM: db 'No long mode support.', 0x0a, 0x0d, 0
 YES_LM: db 'Long Mode supported.', 0x0a, 0x0d, 0
 

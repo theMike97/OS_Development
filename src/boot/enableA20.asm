@@ -60,6 +60,8 @@ pusha
   jmp $
 
 .done:
+  mov si, A20DONE
+  call printf
   popa
   ret
 
