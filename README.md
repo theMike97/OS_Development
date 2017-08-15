@@ -18,19 +18,14 @@ To compile assembly files, create ISO, compile C files, burn ISO image to a CD/D
 * gcc (you should have this, but for completeness, I am including it here)
 * dvd+rw-tools
 * qemu (or bochs - the makefile uses qemu, so you will have to change it if you choose to use bochs)
-* virtualbox (if you want to test your ISO images)
+* virtualbox (optional)
 
 #### Installation
 
 For the bootloader:
 
 To compile, just run the makefile `make`
-To create an ISO:
-
-```
-truncate main.bin -s 1200k
-mkisofs -b main.bin -o os.iso ./
-```
+To create an ISO, run `make iso`
 
 If you want to run the ISO as a VM, create a new Windows VM in VirtualBox with all defaults, and in the storage settings menu, select the CD icon which should say "Empty" next to it, check the "Live CD" option, and choose your ISO image.
 
