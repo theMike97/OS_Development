@@ -26,10 +26,11 @@ call printf
 
 ; Reset disk
 xor ax, ax
-mov dl, 0x00
+mov dl, 0x80
 int 0x13
 
 ; Load sectors from our disk
+mov dl, 0x80
 mov al, 1		; sectors to read
 mov cl, 2		; start sector
 call readDisk
@@ -71,8 +72,55 @@ call printf
 
 call checklm
 
+; paging
+mov edi, 0x1000
+mov cr3, edi
+xor eax, eax
+mov ecx, 4096
+rep stosd
+mov edi, cr3
+
+mov DWORD [edi], 0x2003
+add edi, 0x1000
+mov DWORD [edi], 0x3003
+add edi, 0x1000
+mov DWORD [edi], 0x4003
+add edi, 0x1000
+
+mov ebx, 0x00000003
+mov ecx, 512
+
+.setEntry:
+  mov DWORD [edi], ebx
+  add ebx, 0x1000
+  add edi, 8
+  loop .setEntry
+
+mov eax, cr4
+or eax, 1 << 5
+mov cr4, eax
+
+mov ecx, 0xc0000080
+rdmsr
+or eax, 1 << 8
+wrmsr
+
+mov eax, cr0
+or eax, 1 << 31
+or eax, 1 << 0
+mov cr0, eax
+
+lgdt [GDT.Pointer]
+jmp GDT.Code:LongMode
+
 jmp $
 
 %include "checklm.asm"
+%include "gdt.asm"
+
+[bits 64]
+LongMode:
+hlt
+;;
 
 times 512 db 0 ; extra padding so QEmu doesn't think we've run out of disk space
