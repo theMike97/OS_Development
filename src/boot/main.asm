@@ -9,7 +9,7 @@ main:
 ; Reset segment regs and set stack pointer to entry point
 
 cli
-jmp 0x0000:ZeroSeg	; far jump to correct for BIOS puttin us in the wrong segment
+jmp 0x0000:ZeroSeg	; far jump to correct for BIOS putting us in the wrong segment
 ZeroSeg:
   xor ax, ax
   mov ss, ax
@@ -72,26 +72,32 @@ call printf
 
 call checklm
 
-; paging
+cli
+
 mov edi, 0x1000
 mov cr3, edi
 xor eax, eax
 mov ecx, 4096
 rep stosd
-mov edi, cr3
+mov edi, 0x1000
 
-mov DWORD [edi], 0x2003
+;PML4T -> 0x1000
+;PDPT -> 0x2000
+;PDT -> 0x3000
+;PT -> 0x4000
+
+mov dword [edi], 0x2003
 add edi, 0x1000
-mov DWORD [edi], 0x3003
+mov dword [edi], 0x3003
 add edi, 0x1000
-mov DWORD [edi], 0x4003
+mov dword [edi], 0x4003
 add edi, 0x1000
 
-mov ebx, 0x00000003
+mov dword ebx, 3
 mov ecx, 512
 
 .setEntry:
-  mov DWORD [edi], ebx
+  mov dword [edi], ebx
   add ebx, 0x1000
   add edi, 8
   loop .setEntry
@@ -113,14 +119,20 @@ mov cr0, eax
 lgdt [GDT.Pointer]
 jmp GDT.Code:LongMode
 
-jmp $
-
 %include "checklm.asm"
 %include "gdt.asm"
 
 [bits 64]
 LongMode:
-hlt
-;;
 
+VID_MEM equ 0xb8000
+mov edi, VID_MEM
+mov rax, 0x1f201f201f201f20
+mov ecx, 500
+rep stosq
+
+mov rax, 0x1f741f731f651f54
+mov [VID_MEM], rax
+
+hlt
 times 512 db 0 ; extra padding so QEmu doesn't think we've run out of disk space
