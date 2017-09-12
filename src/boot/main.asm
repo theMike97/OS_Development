@@ -26,13 +26,16 @@ call printf
 
 ; Reset disk
 xor ax, ax
+mov bx, sTwo
 mov dl, 0x80
 int 0x13
 
 ; Load sectors from our disk
 mov dl, 0x80
-mov al, 1		; sectors to read
+mov al, 2		; sectors to read
 mov cl, 2		; start sector
+mov bx, sTwo		; offset
+; es is already 0
 call readDisk
 
 ;mov ax, 0x2400
@@ -56,7 +59,7 @@ jmp $ ;safety hang
 
 LOADING: db 'Loading...', 0x0a, 0x0d, 0
 DISK_ERR_MSG: db 'Error Loading Disk.', 0x0a, 0x0d, 0
-TEST_STR: db 'You are in the second sector.', 0x0a, 0x0d, 0
+;TEST_STR: db 'You are in the second sector.', 0x0a, 0x0d, 0
 NO_A20: db 'No A20 line.', 0x0a, 0x0d, 0
 A20DONE: db 'A20 Line Enabled.', 0x0a, 0x0d, 0
 NO_LM: db 'No long mode support.', 0x0a, 0x0d, 0
@@ -71,6 +74,17 @@ mov si, TEST_STR
 call printf
 
 call checklm
+
+push bx
+xor bx, bx
+mov es, bx
+pop bx
+
+mov dl, 0x80
+mov al, 3
+mov cl, 3
+mov bx, Kernel
+call readDisk
 
 cli
 
@@ -119,6 +133,8 @@ mov cr0, eax
 lgdt [GDT.Pointer]
 jmp GDT.Code:LongMode
 
+TEST_STR: db 'You are in the second sector.', 0x0a, 0x0d, 0
+
 %include "checklm.asm"
 %include "gdt.asm"
 
@@ -127,12 +143,25 @@ LongMode:
 
 VID_MEM equ 0xb8000
 mov edi, VID_MEM
-mov rax, 0x1f201f201f201f20
+mov rax, 0x8f208f208f208f20
 mov ecx, 500
 rep stosq
 
-mov rax, 0x1f741f731f651f54
-mov [VID_MEM], rax
+jmp Kernel
 
 hlt
-times 512 db 0 ; extra padding so QEmu doesn't think we've run out of disk space
+times 512-($-$$-512) db 0
+;times 1048576 - ($-($$ + 512)) db 0 ; precise padding to fill up 1MB
+
+Kernel:
+
+mov rax, 0x8f658f4b
+mov [VID_MEM], rax
+
+mov rax, 0x8f6c8f658f6e8f72
+mov [VID_MEM+4], rax
+
+hlt
+
+times 4096 db 0
+;times 5120 db 0

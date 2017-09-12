@@ -8,11 +8,7 @@ readDisk:
   mov ch, 0		; select start cylinder
   mov dh, 0		; select start head
 
-  push bx
-  xor bx, bx
-  mov es, bx		; set es segment register to 0
-  pop bx
-  mov bx, 0x7e00		; set offset address (sector 2 address)
+  ;mov bx, 0x7e00	; set offset address (sector 2 address)
 
   int 0x13		; call interrupt
 
