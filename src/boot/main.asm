@@ -155,10 +155,10 @@ times 512-($-$$-512) db 0
 
 Kernel:
 
-mov rax, 0x8f658f4b
+mov rax, 0x2e658f3d
 mov [VID_MEM], rax
 
-mov rax, 0x8f6c8f658f6e8f72
+mov rax, 0x2e238f658f6e8f73
 mov [VID_MEM+4], rax
 
 hlt
